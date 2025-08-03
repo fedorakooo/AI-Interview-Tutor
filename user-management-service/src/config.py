@@ -30,6 +30,7 @@ class SQLAlchemySettings(BaseSettings):
     ECHO: bool = False
     POOL_SIZE: int = 5
     MAX_OVERFLOW: int = 10
+    EXPIRE_ON_COMMIT: bool = False
 
 
 class LoggerSettings(BaseSettings):
