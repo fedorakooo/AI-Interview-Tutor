@@ -69,7 +69,7 @@ class UserResponse(BaseModel):
             first_name=user.first_name,
             second_name=user.second_name,
             username=user.username,
-            email=EmailStr(user.email),
+            email=user.email,
             phone_number=user.phone_number,
             created_at=user.created_at,
             modified_at=user.modified_at,

@@ -16,6 +16,7 @@ pyyaml = ">=6.0.2,<7.0.0"
 asyncpg = ">=0.30.0,<0.31.0"
 uvicorn = ">=0.35.0,<0.36.0"
 pydantic = { extras = ["email"], version = ">=2.11.7,<3.0.0" }
+python-multipart = "^0.0.20"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.2.0"
