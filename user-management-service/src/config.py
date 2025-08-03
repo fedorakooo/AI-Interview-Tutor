@@ -73,6 +73,35 @@ class JWTSettings(BaseSettings):
             return config.get("jwt_handler", {})
 
 
+class RedisSettings(BaseSettings):
+    """Redis connection settings."""
+
+    REDIS_PORT: str
+    REDIS_HOST: str
+    REDIS_USER: str
+    REDIS_USER_PASSWORD: str
+
+    decode_responses: bool = True
+
+    @property
+    def port(self) -> int:
+        return int(self.REDIS_PORT)
+
+    @property
+    def username(self) -> str:
+        return self.REDIS_USER
+
+    @property
+    def password(self) -> str:
+        return self.REDIS_USER_PASSWORD
+
+    @property
+    def host(self) -> str:
+        return self.REDIS_HOST
+
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+
 class Settings(BaseSettings):
     """Application settings container."""
 
@@ -80,6 +109,7 @@ class Settings(BaseSettings):
     sql_alchemy_settings: SQLAlchemySettings = SQLAlchemySettings()
     logger_settings: LoggerSettings = LoggerSettings()
     jwt_settings: JWTSettings = JWTSettings()
+    redis_settings: RedisSettings = RedisSettings()
 
     def __init__(self) -> None:
         super().__init__()
