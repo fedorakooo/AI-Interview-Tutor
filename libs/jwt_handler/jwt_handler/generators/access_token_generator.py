@@ -10,7 +10,7 @@ class AccessTokenGenerator(AbstractAccessTokenGenerator):
         token_handler: AbstractTokenHandler,
     ):
         self.token_handler = token_handler
-        self.expire_minutes = settings.ACCESS_TOKEN_EXPIRE_MINUTES
+        self.expire_minutes = settings.access_token_expire_minutes
 
     def generate_access_token(self, user_id: str, username: str, user_role: str, is_blocked: bool) -> str:
         payload = AccessTokenPayload(

@@ -10,7 +10,7 @@ class RefreshTokenGenerator(AbstractRefreshTokenGenerator):
         token_handler: AbstractTokenHandler,
     ):
         self.token_handler = token_handler
-        self.expire_minutes = settings.REFRESH_TOKEN_EXPIRE_MINUTES
+        self.expire_minutes = settings.refresh_token_expire_minutes
 
     def generate_refresh_token(self, user_id: str, username: str) -> str:
         payload = RefreshTokenPayload(
