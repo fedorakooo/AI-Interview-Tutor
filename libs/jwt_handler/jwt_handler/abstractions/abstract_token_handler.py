@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any
+
+from jwt_handler.value_objects import AccessTokenPayload, RefreshTokenPayload
 
 
 class AbstractTokenHandler(ABC):
@@ -8,7 +9,7 @@ class AbstractTokenHandler(ABC):
     @abstractmethod
     def encode_jwt(
         self,
-        payload: dict[str, Any],
+        payload: AccessTokenPayload | RefreshTokenPayload,
         expire_minutes: float,
     ) -> str:
         """Encodes the given payload into a JWT token."""
@@ -18,6 +19,6 @@ class AbstractTokenHandler(ABC):
     def decode_jwt(
         self,
         token: str | bytes,
-    ) -> dict[str, Any]:
+    ) -> AccessTokenPayload | RefreshTokenPayload:
         """Decodes the given JWT and returns its payload."""
         pass

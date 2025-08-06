@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-from src.domain.value_objects.auth_type import TokenType
+from jwt_handler.value_objects.auth_type import TokenType
 
 
 class AccessTokenPayload(TypedDict):
