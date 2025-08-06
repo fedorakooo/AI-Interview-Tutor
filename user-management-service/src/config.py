@@ -50,29 +50,6 @@ class LoggerSettings(BaseSettings):
             return config.get("logger", {})
 
 
-class JWTSettings(BaseSettings):
-    """JWT settings."""
-
-    PRIVATE_KEY: str
-    PUBLIC_KEY: str
-    algorithm: str = "RS256"
-    access_token_expire_minutes: float = 10
-    refresh_token_expire_minutes: float = 20160
-
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
-
-    @classmethod
-    def load_from_yaml(cls, file_path: str = "config.yaml") -> dict[str, Any]:
-        """Load JWT configuration from YAML file."""
-        path = Path(__file__).parent.parent / file_path
-        if not path.exists():
-            return {}
-
-        with path.open() as f:
-            config = yaml.safe_load(f)
-            return config.get("jwt_handler", {})
-
-
 class RedisSettings(BaseSettings):
     """Redis connection settings."""
 
@@ -83,23 +60,16 @@ class RedisSettings(BaseSettings):
 
     decode_responses: bool = True
 
-    @property
-    def port(self) -> int:
-        return int(self.REDIS_PORT)
-
-    @property
-    def username(self) -> str:
-        return self.REDIS_USER
-
-    @property
-    def password(self) -> str:
-        return self.REDIS_USER_PASSWORD
-
-    @property
-    def host(self) -> str:
-        return self.REDIS_HOST
-
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+
+class JWTSettings(BaseSettings):
+    """JWT settings."""
+
+    PUBLIC_KEY: str
+    PRIVATE_KEY: str
+
+    model_config = SettingsConfigDict(env_file="../.env", extra="ignore")
 
 
 class Settings(BaseSettings):
@@ -114,8 +84,6 @@ class Settings(BaseSettings):
     def __init__(self) -> None:
         super().__init__()
         self.logger_settings.LOGGING_CONFIG = LoggerSettings.load_from_yaml()
-        jwt_config = JWTSettings.load_from_yaml()
-        self.jwt_settings = JWTSettings(**jwt_config)
 
 
 settings = Settings()

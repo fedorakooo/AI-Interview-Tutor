@@ -1,14 +1,13 @@
-from src.application.dtos.token import TokenInfoDTO
+from jwt_handler.abstractions import AbstractAccessTokenGenerator, AbstractRefreshTokenGenerator
+from jwt_handler.dtos import TokenInfoDTO
+from jwt_handler.value_objects import AuthType
 from src.domain.abstractions.auth.password_handler import AbstractPasswordHandler
-from src.domain.abstractions.auth.token_generators.access_token_generator import AbstractAccessTokenGenerator
-from src.domain.abstractions.auth.token_generators.refresh_token_generator import AbstractRefreshTokenGenerator
 from src.domain.abstractions.database.uow import AbstractUnitOfWork
 from src.domain.exceptions.login_errors import (
     InvalidPasswordError,
     InvalidUsernameError,
 )
 from src.domain.exceptions.user_errors import UserBlockedError
-from src.domain.value_objects.auth_type import AuthType
 
 
 class LoginUserUseCase:
@@ -45,9 +44,16 @@ class LoginUserUseCase:
         if user.is_blocked:
             raise UserBlockedError(username)
 
-        access_token = self.access_token_generator.generate_access_token(user=user)
-        refresh_token = self.refresh_token_generator.generate_refresh_token(user=user)
-
+        access_token = self.access_token_generator.generate_access_token(
+            user_id=str(user.id),
+            username=username,
+            user_role=user.role,
+            is_blocked=user.is_blocked,
+        )
+        refresh_token = self.refresh_token_generator.generate_refresh_token(
+            user_id=str(user.id),
+            username=username,
+        )
         return TokenInfoDTO(
             access_token=access_token,
             refresh_token=refresh_token,

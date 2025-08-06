@@ -1,18 +1,12 @@
 from datetime import datetime
 
-from src.application.dtos.token import TokenInfoDTO
-from src.domain.abstractions.auth.token_generators.access_token_generator import (
-    AbstractAccessTokenGenerator,
-)
-from src.domain.abstractions.auth.token_generators.refresh_token_generator import (
-    AbstractRefreshTokenGenerator,
-)
-from src.domain.abstractions.auth.token_handler import AbstractTokenHandler
+from jwt_handler.abstractions import AbstractAccessTokenGenerator, AbstractRefreshTokenGenerator, AbstractTokenHandler
+from jwt_handler.dtos import TokenInfoDTO
+from jwt_handler.exceptions import InvalidTokenError
+from jwt_handler.value_objects import AuthType, TokenType
 from src.domain.abstractions.database.uow import AbstractUnitOfWork
 from src.domain.abstractions.redis.redis_client import AbstractRedisClient
-from src.domain.exceptions.token_errors import InvalidTokenError
 from src.domain.exceptions.user_errors import UserBlockedError
-from src.domain.value_objects.auth_type import AuthType, TokenType
 
 
 class RefreshTokenUseCase:
@@ -55,8 +49,16 @@ class RefreshTokenUseCase:
         if await self.redis_client.exists(f"refresh-key:{refresh_token}"):
             raise InvalidTokenError()
 
-        access_token = self.access_token_generator.generate_access_token(user=user)
-        new_refresh_token = self.refresh_token_generator.generate_refresh_token(user=user)
+        access_token = self.access_token_generator.generate_access_token(
+            user_id=str(user.id),
+            username=username,
+            user_role=user.role,
+            is_blocked=user.is_blocked,
+        )
+        new_refresh_token = self.refresh_token_generator.generate_refresh_token(
+            user_id=str(user.id),
+            username=username,
+        )
 
         expiration_time = payload.get("exp")
 

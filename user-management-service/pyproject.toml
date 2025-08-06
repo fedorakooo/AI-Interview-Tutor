@@ -18,6 +18,7 @@ uvicorn = ">=0.35.0,<0.36.0"
 pydantic = { extras = ["email"], version = ">=2.11.7,<3.0.0" }
 python-multipart = "^0.0.20"
 redis = "^6.2.0"
+jwt-handler = { git = "https://github.com/fedorakooo/AI-Interview-Tutor.git", branch = "dev", subdirectory = "libs/jwt_handler" }
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.2.0"
