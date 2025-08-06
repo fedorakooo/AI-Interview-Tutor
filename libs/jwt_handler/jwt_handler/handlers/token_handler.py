@@ -16,7 +16,7 @@ class JWTTokenHandler(AbstractTokenHandler):
         """Initialize the JWT token handler."""
         self.public_key = public_key
         self.private_key = private_key
-        self.algorithm = settings.JWT_ALGORITHM
+        self.algorithm = settings.algorithm
 
     def encode_jwt(
         self,
