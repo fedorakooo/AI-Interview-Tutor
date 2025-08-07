@@ -3,7 +3,7 @@ services:
     build: ./
     env_file: ./.env
     ports:
-      - "8001:8001"
+      - "8000:8000"
     volumes:
       - ./src/migrations/versions:/app/src/migrations/versions
     depends_on:
