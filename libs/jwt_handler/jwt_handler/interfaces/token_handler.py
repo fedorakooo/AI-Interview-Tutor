@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from jwt_handler.value_objects import AccessTokenPayload, RefreshTokenPayload
 
 
-class AbstractTokenHandler(ABC):
+class ITokenHandler(ABC):
     """Abstract class for handling token operations."""
 
     @abstractmethod

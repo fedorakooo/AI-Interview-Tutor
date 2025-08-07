@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class AbstractAccessTokenGenerator(ABC):
+class IAccessTokenGenerator(ABC):
     """Abstract class for generating an access tokens."""
 
     @abstractmethod

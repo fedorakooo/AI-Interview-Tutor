@@ -1,13 +1,12 @@
-from jwt_handler.abstractions import AbstractTokenHandler
-from jwt_handler.abstractions.abstract_access_token_generator import AbstractAccessTokenGenerator
 from jwt_handler.config import settings
+from jwt_handler.interfaces import IAccessTokenGenerator, ITokenHandler
 from jwt_handler.value_objects import AccessTokenPayload, TokenType
 
 
-class AccessTokenGenerator(AbstractAccessTokenGenerator):
+class AccessTokenGenerator(IAccessTokenGenerator):
     def __init__(
         self,
-        token_handler: AbstractTokenHandler,
+        token_handler: ITokenHandler,
     ):
         self.token_handler = token_handler
         self.expire_minutes = settings.access_token_expire_minutes

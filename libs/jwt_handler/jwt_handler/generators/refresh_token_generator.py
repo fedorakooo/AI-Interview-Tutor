@@ -1,13 +1,12 @@
-from jwt_handler.abstractions import AbstractTokenHandler
-from jwt_handler.abstractions.abstract_refresh_token_generator import AbstractRefreshTokenGenerator
 from jwt_handler.config import settings
+from jwt_handler.interfaces import IRefreshTokenGenerator, ITokenHandler
 from jwt_handler.value_objects import RefreshTokenPayload, TokenType
 
 
-class RefreshTokenGenerator(AbstractRefreshTokenGenerator):
+class RefreshTokenGenerator(IRefreshTokenGenerator):
     def __init__(
         self,
-        token_handler: AbstractTokenHandler,
+        token_handler: ITokenHandler,
     ):
         self.token_handler = token_handler
         self.expire_minutes = settings.refresh_token_expire_minutes

@@ -2,14 +2,14 @@ from datetime import UTC, datetime, timedelta
 
 import jwt
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
-from jwt_handler.abstractions import AbstractTokenHandler
 from jwt_handler.config import settings
 from jwt_handler.exceptions import ExpiredSignatureError as CustomExpiredSignatureError
 from jwt_handler.exceptions import InvalidTokenError as CustomInvalidTokenError
+from jwt_handler.interfaces import ITokenHandler
 from jwt_handler.value_objects import AccessTokenPayload, RefreshTokenPayload
 
 
-class JWTTokenHandler(AbstractTokenHandler):
+class JWTTokenHandler(ITokenHandler):
     """Handles JWT token encoding and decoding operations."""
 
     def __init__(self, public_key: str, private_key: str):

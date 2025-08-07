@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class AbstractRefreshTokenGenerator(ABC):
+class IRefreshTokenGenerator(ABC):
     """Abstract class for generating a refresh token."""
 
     @abstractmethod
