@@ -68,7 +68,10 @@ class JWTTokenHandler(ITokenHandler):
         """
         try:
             decoded = jwt.decode(
-                jwt=token, key=self.public_key, algorithms=[self.algorithm], options={"verify_signature": True}
+                jwt=token,
+                key=self.public_key,
+                algorithms=[self.algorithm],
+                options={"verify_signature": True},
             )
         except ExpiredSignatureError:
             raise CustomExpiredSignatureError

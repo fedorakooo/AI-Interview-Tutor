@@ -7,7 +7,13 @@ setup(
     author_email="fedorakooo@gmail.com",
     description="A JWT token handling library for microservices",
     packages=find_packages(
-        include=["handlers*", "exceptions*", "generators*", "interfaces*", "value_objects*"],
+        include=[
+            "handlers*",
+            "exceptions*",
+            "generators*",
+            "interfaces*",
+            "value_objects*",
+        ],
         exclude=["tests*", "test*", "*.tests*", "*.test*"],
     ),
     install_requires=[
