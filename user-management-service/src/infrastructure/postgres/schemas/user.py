@@ -3,6 +3,7 @@ from uuid import UUID
 
 from sqlalchemy import text
 from sqlalchemy.orm import Mapped, mapped_column
+
 from src.domain.entities.user import User
 from src.domain.value_objects.user_role import UserRole
 from src.infrastructure.postgres.database import Base

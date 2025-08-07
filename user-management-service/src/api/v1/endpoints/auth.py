@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Form, status
 from jwt_handler.models import TokenResponse
 from pydantic import SecretStr
+
 from src.api.dependencies.use_cases import (
     get_login_user_use_case,
     get_refresh_token_use_case,
@@ -11,7 +12,9 @@ from src.api.dependencies.use_cases import (
 from src.api.v1.models.user import UserCreateRequest, UserResponse
 from src.application.use_cases.auth.refresh_token_use_case import RefreshTokenUseCase
 from src.application.use_cases.auth.user_login_use_case import LoginUserUseCase
-from src.application.use_cases.auth.user_registration_use_case import UserRegistrationUseCase
+from src.application.use_cases.auth.user_registration_use_case import (
+    UserRegistrationUseCase,
+)
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 

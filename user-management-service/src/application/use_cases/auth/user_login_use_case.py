@@ -1,6 +1,10 @@
-from jwt_handler.abstractions import AbstractAccessTokenGenerator, AbstractRefreshTokenGenerator
+from jwt_handler.abstractions import (
+    AbstractAccessTokenGenerator,
+    AbstractRefreshTokenGenerator,
+)
 from jwt_handler.dtos import TokenInfoDTO
 from jwt_handler.value_objects import AuthType
+
 from src.domain.abstractions.auth.password_handler import AbstractPasswordHandler
 from src.domain.abstractions.database.uow import AbstractUnitOfWork
 from src.domain.exceptions.login_errors import (

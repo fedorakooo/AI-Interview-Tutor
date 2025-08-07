@@ -1,4 +1,5 @@
 from redis.asyncio import Redis
+
 from src.domain.abstractions.redis.redis_client import AbstractRedisClient
 
 

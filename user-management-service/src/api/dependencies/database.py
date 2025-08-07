@@ -8,12 +8,15 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
+
 from src.config import settings
 from src.domain.abstractions.database.repositories.user_repository import (
     AbstractUserRepository,
 )
 from src.domain.abstractions.database.uow import AbstractUnitOfWork
-from src.infrastructure.postgres.repositories.user_repository import UserPostgresRepository
+from src.infrastructure.postgres.repositories.user_repository import (
+    UserPostgresRepository,
+)
 from src.infrastructure.postgres.uow import SqlAlchemyUnitOfWork
 
 

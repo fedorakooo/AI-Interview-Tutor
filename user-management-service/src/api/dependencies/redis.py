@@ -3,6 +3,7 @@ from typing import Annotated
 
 from fastapi import Depends
 from redis.asyncio import Redis
+
 from src.config import settings
 from src.domain.abstractions.redis.redis_client import AbstractRedisClient
 from src.infrastructure.redis.redis_client import RedisClient

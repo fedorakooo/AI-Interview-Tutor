@@ -6,6 +6,7 @@ from jwt_handler.abstractions import (
     AbstractRefreshTokenGenerator,
     AbstractTokenHandler,
 )
+
 from src.api.dependencies.auth import (
     get_access_token_generator,
     get_password_handler,
@@ -16,7 +17,9 @@ from src.api.dependencies.database import get_unit_of_work
 from src.api.dependencies.redis import get_redis_client
 from src.application.use_cases.auth.refresh_token_use_case import RefreshTokenUseCase
 from src.application.use_cases.auth.user_login_use_case import LoginUserUseCase
-from src.application.use_cases.auth.user_registration_use_case import UserRegistrationUseCase
+from src.application.use_cases.auth.user_registration_use_case import (
+    UserRegistrationUseCase,
+)
 from src.domain.abstractions.auth.password_handler import AbstractPasswordHandler
 from src.domain.abstractions.database.uow import AbstractUnitOfWork
 from src.domain.abstractions.redis.redis_client import AbstractRedisClient

@@ -1,9 +1,14 @@
 from datetime import datetime
 
-from jwt_handler.abstractions import AbstractAccessTokenGenerator, AbstractRefreshTokenGenerator, AbstractTokenHandler
+from jwt_handler.abstractions import (
+    AbstractAccessTokenGenerator,
+    AbstractRefreshTokenGenerator,
+    AbstractTokenHandler,
+)
 from jwt_handler.dtos import TokenInfoDTO
 from jwt_handler.exceptions import InvalidTokenError
 from jwt_handler.value_objects import AuthType, TokenType
+
 from src.domain.abstractions.database.uow import AbstractUnitOfWork
 from src.domain.abstractions.redis.redis_client import AbstractRedisClient
 from src.domain.exceptions.user_errors import UserBlockedError

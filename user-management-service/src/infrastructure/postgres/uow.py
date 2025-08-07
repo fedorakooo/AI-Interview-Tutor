@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.domain.abstractions.database.repositories.user_repository import (
     AbstractUserRepository,
 )

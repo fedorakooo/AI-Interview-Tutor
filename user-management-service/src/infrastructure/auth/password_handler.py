@@ -1,4 +1,5 @@
 import bcrypt
+
 from src.domain.abstractions.auth.password_handler import AbstractPasswordHandler
 
 

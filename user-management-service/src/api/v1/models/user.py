@@ -2,6 +2,7 @@ from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel, EmailStr, SecretStr, field_validator
+
 from src.api.v1.models.validators.user_validators import (
     NameValidator,
     PasswordValidator,

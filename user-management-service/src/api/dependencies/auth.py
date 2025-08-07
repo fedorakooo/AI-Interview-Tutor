@@ -1,9 +1,14 @@
 from typing import Annotated
 
 from fastapi import Depends
-from jwt_handler.abstractions import AbstractAccessTokenGenerator, AbstractRefreshTokenGenerator, AbstractTokenHandler
+from jwt_handler.abstractions import (
+    AbstractAccessTokenGenerator,
+    AbstractRefreshTokenGenerator,
+    AbstractTokenHandler,
+)
 from jwt_handler.generators import AccessTokenGenerator, RefreshTokenGenerator
 from jwt_handler.handlers import JWTTokenHandler
+
 from src.config import settings
 from src.domain.abstractions.auth.password_handler import AbstractPasswordHandler
 from src.infrastructure.auth.password_handler import PasswordHandler
