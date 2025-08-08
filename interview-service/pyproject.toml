@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "src"
+version = "0.0.1"
+description = ""
+authors = ["Aliaksandr Fedaraka <fedorakooo@gmain.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.116.1"
+poetry = "^2.1.4"
+langgraph = "^0.6.4"
+langchain = {extras = ["google-genai"], version = "^0.3.27"}
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
