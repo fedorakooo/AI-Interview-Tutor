@@ -2,6 +2,7 @@ from datetime import UTC, datetime, timedelta
 
 import jwt
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
+
 from jwt_handler.config import settings
 from jwt_handler.exceptions import ExpiredSignatureError as CustomExpiredSignatureError
 from jwt_handler.exceptions import InvalidTokenError as CustomInvalidTokenError
@@ -73,8 +74,8 @@ class JWTTokenHandler(ITokenHandler):
                 algorithms=[self.algorithm],
                 options={"verify_signature": True},
             )
-        except ExpiredSignatureError:
-            raise CustomExpiredSignatureError
-        except InvalidTokenError:
-            raise CustomInvalidTokenError
+        except ExpiredSignatureError as exc:
+            raise CustomExpiredSignatureError from exc
+        except InvalidTokenError as exc:
+            raise CustomInvalidTokenError from exc
         return decoded

@@ -1,6 +1,7 @@
+from pydantic import BaseModel
+
 from jwt_handler.dtos import TokenInfoDTO
 from jwt_handler.value_objects import AuthType
-from pydantic import BaseModel
 
 
 class TokenResponse(BaseModel):
