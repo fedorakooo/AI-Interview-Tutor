@@ -20,26 +20,6 @@ python-multipart = "^0.0.20"
 redis = "^6.2.0"
 jwt-handler = { git = "https://github.com/fedorakooo/AI-Interview-Tutor.git", branch = "dev", subdirectory = "libs/jwt_handler" }
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^4.2.0"
-black = "^25.1.0"
-mypy = "^1.16.0"
-ruff = "^0.12.7"
-
-[tool.black]
-line-length = 120
-
-[tool.ruff]
-target-version = "py312"
-line-length = 120
-src = ["src", "tests"]
-exclude = ["src/migrations"]
-
-[tool.ruff.lint]
-select = ["E", "F", "I", "B", "UP"]
-ignore = ["B008"]
-
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
