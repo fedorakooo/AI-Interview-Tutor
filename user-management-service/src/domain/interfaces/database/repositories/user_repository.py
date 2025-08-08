@@ -4,8 +4,8 @@ from uuid import UUID
 from src.domain.entities.user import User
 
 
-class AbstractUserRepository(ABC):
-    """Abstract class defining the interface for user repository operations."""
+class IUserRepository(ABC):
+    """Interface defining the interface for user repository operations."""
 
     @abstractmethod
     async def get_by_id(self, user_id: UUID) -> User | None:

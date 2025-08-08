@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Form, status
 from jwt_handler.models import TokenResponse
 from pydantic import SecretStr
 
-from src.api.dependencies.use_cases import (
+from src.api.dependencies.use_cases.auth import (
     get_login_user_use_case,
     get_refresh_token_use_case,
     get_user_registration_use_case,

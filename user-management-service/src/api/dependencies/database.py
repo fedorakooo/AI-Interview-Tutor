@@ -10,10 +10,8 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from src.config import settings
-from src.domain.abstractions.database.repositories.user_repository import (
-    AbstractUserRepository,
-)
-from src.domain.abstractions.database.uow import AbstractUnitOfWork
+from src.domain.interfaces.database.repositories.user_repository import IUserRepository
+from src.domain.interfaces.database.uow import IUnitOfWork
 from src.infrastructure.postgres.repositories.user_repository import (
     UserPostgresRepository,
 )
@@ -52,14 +50,14 @@ async def get_session(
 
 def get_user_repository(
     session: Annotated[AsyncSession, Depends(get_session)],
-) -> AbstractUserRepository:
+) -> IUserRepository:
     return UserPostgresRepository(session)
 
 
 def get_unit_of_work(
     session: Annotated[AsyncSession, Depends(get_session)],
-    user_repository: Annotated[AbstractUserRepository, Depends(get_user_repository)],
-) -> AbstractUnitOfWork:
+    user_repository: Annotated[IUserRepository, Depends(get_user_repository)],
+) -> IUnitOfWork:
     return SqlAlchemyUnitOfWork(
         session=session,
         user_repository=user_repository,

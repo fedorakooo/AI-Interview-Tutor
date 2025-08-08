@@ -1,10 +1,10 @@
 from typing import Annotated
 
 from fastapi import Depends
-from jwt_handler.abstractions import (
-    AbstractAccessTokenGenerator,
-    AbstractRefreshTokenGenerator,
-    AbstractTokenHandler,
+from jwt_handler.interfaces import (
+    IAccessTokenGenerator,
+    IRefreshTokenGenerator,
+    ITokenHandler,
 )
 
 from src.api.dependencies.auth import (
@@ -20,14 +20,14 @@ from src.application.use_cases.auth.user_login_use_case import LoginUserUseCase
 from src.application.use_cases.auth.user_registration_use_case import (
     UserRegistrationUseCase,
 )
-from src.domain.abstractions.auth.password_handler import AbstractPasswordHandler
-from src.domain.abstractions.database.uow import AbstractUnitOfWork
-from src.domain.abstractions.redis.redis_client import AbstractRedisClient
+from src.domain.interfaces.auth.password_handler import IPasswordHandler
+from src.domain.interfaces.database.uow import IUnitOfWork
+from src.domain.interfaces.redis.redis_client import IRedisClient
 
 
 def get_user_registration_use_case(
-    password_handler: Annotated[AbstractPasswordHandler, Depends(get_password_handler)],
-    uow: Annotated[AbstractUnitOfWork, Depends(get_unit_of_work)],
+    password_handler: Annotated[IPasswordHandler, Depends(get_password_handler)],
+    uow: Annotated[IUnitOfWork, Depends(get_unit_of_work)],
 ) -> UserRegistrationUseCase:
     return UserRegistrationUseCase(
         password_handler=password_handler,
@@ -36,10 +36,10 @@ def get_user_registration_use_case(
 
 
 def get_login_user_use_case(
-    uow: Annotated[AbstractUnitOfWork, Depends(get_unit_of_work)],
-    access_token_generator: Annotated[AbstractAccessTokenGenerator, Depends(get_access_token_generator)],
-    refresh_token_generator: Annotated[AbstractRefreshTokenGenerator, Depends(get_refresh_token_generator)],
-    password_handler: Annotated[AbstractPasswordHandler, Depends(get_password_handler)],
+    uow: Annotated[IUnitOfWork, Depends(get_unit_of_work)],
+    access_token_generator: Annotated[IAccessTokenGenerator, Depends(get_access_token_generator)],
+    refresh_token_generator: Annotated[IRefreshTokenGenerator, Depends(get_refresh_token_generator)],
+    password_handler: Annotated[IPasswordHandler, Depends(get_password_handler)],
 ) -> LoginUserUseCase:
     return LoginUserUseCase(
         access_token_generator=access_token_generator,
@@ -50,11 +50,11 @@ def get_login_user_use_case(
 
 
 def get_refresh_token_use_case(
-    uow: Annotated[AbstractUnitOfWork, Depends(get_unit_of_work)],
-    redis_client: Annotated[AbstractRedisClient, Depends(get_redis_client)],
-    token_handler: Annotated[AbstractTokenHandler, Depends(get_token_handler)],
-    access_token_generator: Annotated[AbstractAccessTokenGenerator, Depends(get_access_token_generator)],
-    refresh_token_generator: Annotated[AbstractRefreshTokenGenerator, Depends(get_refresh_token_generator)],
+    uow: Annotated[IUnitOfWork, Depends(get_unit_of_work)],
+    redis_client: Annotated[IRedisClient, Depends(get_redis_client)],
+    token_handler: Annotated[ITokenHandler, Depends(get_token_handler)],
+    access_token_generator: Annotated[IAccessTokenGenerator, Depends(get_access_token_generator)],
+    refresh_token_generator: Annotated[IRefreshTokenGenerator, Depends(get_refresh_token_generator)],
 ) -> RefreshTokenUseCase:
     return RefreshTokenUseCase(
         access_token_generator=access_token_generator,

@@ -4,10 +4,8 @@ import sqlalchemy
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.abstractions.database.repositories.user_repository import (
-    AbstractUserRepository,
-)
 from src.domain.entities.user import User
+from src.domain.interfaces.database.repositories.user_repository import IUserRepository
 from src.infrastructure.postgres.exceptions.database_errors import (
     DatabaseError,
     DatabaseUniqueViolationError,
@@ -15,7 +13,7 @@ from src.infrastructure.postgres.exceptions.database_errors import (
 from src.infrastructure.postgres.schemas.user import UserORM
 
 
-class UserPostgresRepository(AbstractUserRepository):
+class UserPostgresRepository(IUserRepository):
     def __init__(self, session: AsyncSession):
         self._session = session
 
