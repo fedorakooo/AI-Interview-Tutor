@@ -2,30 +2,31 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.constants import END
 from langgraph.graph import StateGraph
 
-from src.agent.state import handle_self_introduction
-from src.domain.models.interview_state import InterviewState
-from src.domain.value_objects.conversation_role import ConversationRole
-from src.domain.value_objects.interview_stage import InterviewStage
+from src.agent.domain.models.interview_state import InterviewState
+from src.agent.domain.value_objects.interview_stage import InterviewStage
+from src.agent.state.soft_questions import ask_soft_questions
+from src.agent.state.start_interview import start_interview
 
 
 def create_interview_workflow():
-    def start_interview(state: InterviewState) -> InterviewState:
-        greeting = "Hello! I'm your AI technical interviewer. Let's start!"
-        return {**state, "interview_log": [(ConversationRole.AGENT, greeting)], "stage": InterviewStage.SELF_INTRO}
 
     workflow = StateGraph(InterviewState)
 
-    # Add nodes
     workflow.add_node("start_interview", start_interview)
-    workflow.add_node("handle_self_introduction", handle_self_introduction)
+    workflow.add_node("ask_soft_questions", ask_soft_questions)
 
     # Define routing
     def route_based_on_stage(state: InterviewState) -> str:
         if not state.get("interview_log"):
             return "start_interview"
 
-        if state["stage"] == "Self Intro":
-            return "handle_self_introduction"
+        if state["stage"] == InterviewStage.GREETING:
+            return "start_interview"
+
+        if state["stage"] == InterviewStage.SOFT_QUESTIONS:
+            if state.get("interview_log") and state["interview_log"][-1][0] == "Agent":
+                return END
+            return "ask_soft_questions"
 
         return END
 
@@ -34,17 +35,17 @@ def create_interview_workflow():
         route_based_on_stage,
         {
             "start_interview": "start_interview",
-            "handle_self_introduction": "handle_self_introduction",
+            "ask_soft_questions": "ask_soft_questions",
             "__end__": END,
         },
     )
 
-    workflow.add_edge("start_interview", "handle_self_introduction")
+    workflow.add_edge("start_interview", "ask_soft_questions")
     workflow.add_conditional_edges(
-        "handle_self_introduction",
+        "ask_soft_questions",
         route_based_on_stage,
         {
-            "handle_self_introduction": "handle_self_introduction",
+            "ask_soft_questions": "ask_soft_questions",
             "__end__": END,
         },
     )

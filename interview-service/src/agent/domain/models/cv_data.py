@@ -27,6 +27,6 @@ class CVData(TypedDict):
     specialization: str | None
     education: list[EducationItem] | None
     experience: list[ExperienceItem] | None
-    additional_competitive_achievements: list[str] | None
+    additional_competitive_non_work_achievements: list[str] | None
     skills: list[str] | None
     languages: list[LanguageItem] | None

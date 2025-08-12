@@ -1,15 +1,31 @@
-from langchain_openai import ChatOpenAI
+from dotenv import load_dotenv
 
-from src.config import settings
+from src.agent.config import settings
 
-
-def initialize_llm() -> ChatOpenAI:
-    return ChatOpenAI(
-        openai_api_base=settings.llm_config.api_base,
-        openai_api_key=settings.llm_config.api_key,
-        model=settings.llm_config.model,
-        temperature=settings.llm_config.temperature,
-    )
+load_dotenv()
 
 
-llm = initialize_llm()
+class LLMFactory:
+    @staticmethod
+    def create_google_llm():
+        from langchain_google_genai import ChatGoogleGenerativeAI
+
+        return ChatGoogleGenerativeAI(
+            model=settings.google_llm.model,
+            temperature=settings.google_llm.temperature,
+        )
+
+    @staticmethod
+    def create_custom_llm():
+        from langchain_openai import ChatOpenAI
+
+        cfg = settings.custom_llm
+        return ChatOpenAI(
+            openai_api_base=cfg.api_base,
+            openai_api_key=cfg.api_key,
+            model=cfg.model,
+            temperature=cfg.temperature,
+        )
+
+
+llm = LLMFactory.create_google_llm()
