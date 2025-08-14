@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "ai-interview-tutor"
+version = "0.1.0"
+description = ""
+authors = ["Aliaksandr Fedaraka <fedorakooo@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.2.0"
+black = "^25.1.0"
+mypy = "^1.16.0"
+ruff = "^0.12.7"
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+exclude = ["user-management-service/src/migrations"]
+fix = true
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["B008"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
