@@ -3,18 +3,21 @@ from typing import TypedDict
 from src.agent.domain.models.cv_data import CVData
 from src.agent.domain.models.user_profile import UserProfile
 from src.agent.domain.value_objects.conversation_role import ConversationRole
-from src.agent.domain.value_objects.interview_stage import InterviewStage
+from src.agent.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
 
 
 class InterviewState(TypedDict):
-    developer_profile: UserProfile
-
-    interview_log: list[tuple[ConversationRole, str]]
-
+    user_profile: UserProfile
+    messages: list[tuple[ConversationRole, str]]
     cv_data: CVData
 
-    stage: InterviewStage
+    overall_stage: OverallInterviewStage
+    intermediate_stage: IntermediateInterviewStage
+
+    is_answer_complete: bool
 
     soft_questions_turns: int
+    soft_question_completed: int
 
-    soft_questions: list[str]
+    hard_questions_turns: int
+    hard_question_completed: int
