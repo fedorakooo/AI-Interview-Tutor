@@ -1,9 +1,10 @@
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Dependency, Factory, Singleton
+from dependency_injector.providers import Dependency, Factory
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from src.adapters.outbound.mongo import MongoRepository
 from src.adapters.outbound.pdf_loader import PDFLoader
+from src.adapters.outbound.rabbitmq_producer import RabbitMQProducer
 from src.adapters.outbound.s3 import S3Client
 from src.config import settings
 
@@ -11,7 +12,7 @@ from src.config import settings
 class OutboundAdaptersContainer(DeclarativeContainer):
     logger = Dependency()
 
-    mongo_client = Singleton(
+    mongo_client = Factory(
         AsyncIOMotorClient,
         settings.mongo_settings.url,
     )
@@ -23,7 +24,7 @@ class OutboundAdaptersContainer(DeclarativeContainer):
         collection_name=settings.mongo_settings.cv_analysis_collection_name,
     )
 
-    s3_client = Singleton(
+    s3_client = Factory(
         S3Client,
         access_key=settings.s3_settings.access_key,
         secret_key=settings.s3_settings.secret_access_key,
@@ -32,6 +33,12 @@ class OutboundAdaptersContainer(DeclarativeContainer):
         region_name=settings.s3_settings.region_name,
     )
 
-    pdf_loader = Singleton(
+    pdf_loader = Factory(
         PDFLoader,
+    )
+
+    rabbitmq_producer_cv_analyzer = Factory(
+        RabbitMQProducer,
+        amqp_url=settings.rabbitmq_settings.url,
+        queue_name=settings.rabbitmq_settings.cv_analyzer_queue_name,
     )

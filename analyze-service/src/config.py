@@ -1,8 +1,4 @@
-from collections.abc import Callable
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
-from src.use_cases.cv_analyze_use_case import CVAnalyzeUseCase
 
 
 class S3Settings(BaseSettings):
@@ -25,11 +21,13 @@ class RabbitMQSettings(BaseSettings):
     user: str
     password: str
 
-    queue_use_case_map: dict[str, Callable] = {
-        "cv-analyze-stream": CVAnalyzeUseCase,
-    }
+    cv_analyzer_queue_name: str = "cv-analyze-stream"
 
     timeout: float = 30
+
+    @property
+    def url(self) -> str:
+        return f"amqp://{self.user}:{self.password}@{self.host}:{self.port}/"
 
     model_config = SettingsConfigDict(env_prefix="RABBITMQ_", env_file=".env", extra="ignore")
 

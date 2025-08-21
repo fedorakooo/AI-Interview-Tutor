@@ -7,7 +7,7 @@ from dependency_injector.wiring import Provide, inject
 
 from src.config import settings
 from src.containers.container import Container
-from src.use_cases.cv_analyze_use_case import CVAnalyzeUseCase
+from src.domain.adapters.inbound.rabbitmq_consumer import IRabbitMQConsumer
 
 
 @inject
@@ -31,9 +31,12 @@ def wait_for_rabbitmq(
 
 
 @inject
-async def main(use_case: CVAnalyzeUseCase = Provide[Container.use_cases.cv_analyze_use_case]):
+async def main(
+    rabbitmq_consumer: IRabbitMQConsumer = Provide[Container.inbound_adapters.rabbitmq_consumer],
+) -> None:
     wait_for_rabbitmq()
-    await use_case("CV.pdf")
+
+    await rabbitmq_consumer.process_messages()
 
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@ from dependency_injector import providers
 from dependency_injector.containers import DeclarativeContainer
 
 from src.containers.agent import AgentContainer
+from src.containers.inbound_adapter import InboundAdaptersContainer
 from src.containers.outbound_adapter import OutboundAdaptersContainer
 from src.containers.use_cases import UseCasesContainer
 
@@ -32,3 +33,5 @@ class Container(DeclarativeContainer):
         outbound_adapters=outbound_adapters,
         agent=agent,
     )
+
+    inbound_adapters = providers.Container(InboundAdaptersContainer, logger=app_logger, use_cases=use_cases)
