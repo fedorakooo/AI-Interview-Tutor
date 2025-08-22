@@ -1,6 +1,5 @@
-from typing import TypedDict
+from typing import Any, TypedDict
 
-from src.agent.domain.models.cv_data import CVData
 from src.agent.domain.models.user_profile import UserProfile
 from src.agent.domain.value_objects.conversation_role import ConversationRole
 from src.agent.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
@@ -9,7 +8,7 @@ from src.agent.domain.value_objects.interview_stage import IntermediateInterview
 class InterviewState(TypedDict):
     user_profile: UserProfile
     messages: list[tuple[ConversationRole, str]]
-    cv_data: CVData
+    cv_data: dict[str, Any]
 
     overall_stage: OverallInterviewStage
     intermediate_stage: IntermediateInterviewStage

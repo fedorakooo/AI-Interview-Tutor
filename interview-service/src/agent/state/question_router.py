@@ -10,12 +10,12 @@ def question_router_node(state: InterviewState) -> InterviewState:
             state["hard_question_completed"] += 1
 
     if state["overall_stage"] == OverallInterviewStage.SOFT_QUESTIONS and (
-        state["soft_questions_turns"] > 8 or state["soft_question_completed"] >= 0
+        state["soft_questions_turns"] > 8 or state["soft_question_completed"] >= 3
     ):
         state["overall_stage"] = OverallInterviewStage.HARD_QUESTIONS
 
     if state["overall_stage"] == OverallInterviewStage.HARD_QUESTIONS and (
-        state["hard_questions_turns"] > 20 or state["hard_question_completed"] >= 1
+        state["hard_questions_turns"] > 20 or state["hard_question_completed"] >= 8
     ):
         state["overall_stage"] = OverallInterviewStage.WRAP_UP
 

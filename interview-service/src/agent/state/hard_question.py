@@ -2,7 +2,7 @@ import random
 
 from langchain_core.prompts import ChatPromptTemplate
 
-from src.agent.domain.models import cv_data
+from src.agent.domain.models.cv_data import CVData
 from src.agent.domain.models.interview_state import InterviewState
 from src.agent.domain.value_objects.conversation_role import ConversationRole
 from src.agent.domain.value_objects.interview_stage import IntermediateInterviewStage
@@ -43,10 +43,7 @@ def ask_hard_question_node(state: InterviewState) -> InterviewState:
 
     chain = prompt | llm
     generated_question = chain.invoke(
-        {
-            "conversation_context": conversation_context,
-            "cv_summary": state["cv_data"].model_dump_json() if cv_data else "{}",
-        }
+        {"conversation_context": conversation_context, "cv_summary": CVData(**state["cv_data"]).model_dump_json()}
     ).content.strip()
 
     messages.append((ConversationRole.AGENT, generated_question))

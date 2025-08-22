@@ -8,7 +8,6 @@ def format_cv(cv_data: CVData) -> str:
     if cv_data.get("specialization"):
         lines.append(f"Specialization: {cv_data['specialization']}")
 
-    # Education
     education_list = cv_data.get("education") or []
     if education_list:
         lines.append("Education:")
