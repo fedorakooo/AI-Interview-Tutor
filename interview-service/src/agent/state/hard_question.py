@@ -2,15 +2,18 @@ import random
 
 from langchain_core.prompts import ChatPromptTemplate
 
+from src.agent.domain.models import cv_data
 from src.agent.domain.models.interview_state import InterviewState
 from src.agent.domain.value_objects.conversation_role import ConversationRole
 from src.agent.domain.value_objects.interview_stage import IntermediateInterviewStage
 from src.agent.llm import llm
 from src.agent.prompts.hard_question import HARD_QUESTION_PROMPT_HUMAN, HARD_QUESTION_PROMPT_SYSTEM
-from src.agent.utils.format_cv import format_cv
 
 
 def ask_hard_question_node(state: InterviewState) -> InterviewState:
+    print(state["hard_question_completed"])
+    print("ask_hard_question_node")
+
     if state["hard_questions_turns"] == 0:
         hard_greetings = [
             "Let's go to checking your hard skills.",
@@ -42,7 +45,7 @@ def ask_hard_question_node(state: InterviewState) -> InterviewState:
     generated_question = chain.invoke(
         {
             "conversation_context": conversation_context,
-            "cv_data": format_cv(state["cv_data"]),
+            "cv_summary": state["cv_data"].model_dump_json() if cv_data else "{}",
         }
     ).content.strip()
 

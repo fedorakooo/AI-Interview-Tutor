@@ -7,6 +7,8 @@ from src.agent.utils.format_messages import format_messages
 
 
 def small_talk_node(state: InterviewState) -> InterviewState:
+    print("small_talk_node")
+
     messages = state["messages"]
 
     conversation_context = format_messages(messages)

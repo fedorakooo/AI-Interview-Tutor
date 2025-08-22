@@ -25,25 +25,23 @@ SAMPLE_CV: CVData = CVData(
         }
     ],
     languages=[
-        {"language": "Russian", "proficiency": "NATIVE"},
+        {"language": "Russian", "proficiency": "Native"},
         {"language": "English", "proficiency": "B1"},
     ],
     skills=[
         "Python",
-        "C++",
         "FastAPI",
         "Django",
-        "DRF",
+        "Django Rest Framework",
         "SQL",
         "Redis",
         "MongoDB",
         "Kafka",
         "RabbitMQ",
-        "Git",
         "Docker",
         "Kubernetes",
         "CI/CD",
-        "AWS",
+        "AWS Cloud",
     ],
     additional_competitive_non_work_achievements=[
         "Participant in the 2024 ICPC Belarus Regional Contest",

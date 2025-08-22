@@ -1,4 +1,5 @@
 from langchain_core.prompts import ChatPromptTemplate
+from langgraph.constants import END
 
 from src.agent.domain.models.interview_state import InterviewState
 from src.agent.domain.value_objects.conversation_role import ConversationRole
@@ -6,9 +7,6 @@ from src.agent.llm import llm
 
 
 def wrap_up_node(state: InterviewState) -> InterviewState:
-    """
-    Handles the wrap-up of the interview, politely saying goodbye to the candidate.
-    """
     print("wrap_up_node")
 
     messages = state.get("messages", [])
@@ -36,5 +34,6 @@ def wrap_up_node(state: InterviewState) -> InterviewState:
 
     messages.append((ConversationRole.AGENT, wrap_up_message))
     state["messages"] = messages
+    state["overall_stage"] = END
 
     return state

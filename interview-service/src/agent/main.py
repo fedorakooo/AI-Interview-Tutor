@@ -18,7 +18,7 @@ def run_interview(profile: UserProfile):
         "messages": [],
         "is_answer_complete": False,
         "overall_stage": OverallInterviewStage.GREETING,
-        "cv_data": SAMPLE_CV,
+        "cv_data": SAMPLE_CV.model_dump(),
         "intermediate_stage": IntermediateInterviewStage.SMALL_TALK,
         "soft_questions_turns": 0,
         "soft_question_completed": 0,
@@ -30,7 +30,7 @@ def run_interview(profile: UserProfile):
 
     state = interviewer.invoke(state, config)
 
-    while True:
+    while state["overall_stage"] != END:
         last_message = state["messages"][-1]
         if last_message[0] == ConversationRole.AGENT:
             print(f"🤖 Interviewer: {last_message[1]}\n")
@@ -42,9 +42,6 @@ def run_interview(profile: UserProfile):
 
         state["messages"].append((ConversationRole.USER, user_input))
         state = interviewer.invoke(state, config)
-
-        if state.get("stage") == END:
-            break
 
         print(state["soft_question_completed"])
 

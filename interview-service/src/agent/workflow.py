@@ -1,9 +1,13 @@
+import json
+
+from langchain_core.prompts import ChatPromptTemplate
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.constants import END
 from langgraph.graph import StateGraph
 
 from src.agent.domain.models.interview_state import InterviewState
 from src.agent.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
+from src.agent.llm import llm
 from src.agent.state.evaluate_answer import evaluate_answer_node
 from src.agent.state.greeting import greeting_node
 from src.agent.state.hard_question import ask_hard_question_node
@@ -16,6 +20,11 @@ from src.agent.utils.format_messages import format_messages
 
 def section_router(state: InterviewState) -> str:
     print("section_router")
+    print(state["overall_stage"])
+
+    if state["overall_stage"] == OverallInterviewStage.WRAP_UP:
+        print("wrap_up")
+        return "wrap_up"
 
     if state["intermediate_stage"] == IntermediateInterviewStage.QUESTION:
         return "evaluate_answer"
@@ -29,9 +38,6 @@ def section_router(state: InterviewState) -> str:
     }:
         return "question_router"
 
-    if state["overall_stage"] == OverallInterviewStage.WRAP_UP:
-        return "wrap_up"
-
     return END
 
 
@@ -39,25 +45,6 @@ def question_router_decision(state: InterviewState) -> str:
     print("question_router_decision")
 
     stage = state.get("overall_stage")
-    soft_questions_turns = state.get("soft_questions_turns", 0)
-
-    if stage == OverallInterviewStage.SOFT_QUESTIONS and soft_questions_turns >= 6:
-        return "ask_hard_question"
-
-    if stage == OverallInterviewStage.HARD_QUESTIONS:
-        from src.agent.domain.value_objects.conversation_role import ConversationRole
-
-        hard_questions_count = sum(
-            1 for msg in state.get("messages", []) if msg[0] == ConversationRole.AGENT and "?" in msg[1]
-        )
-        if hard_questions_count >= 8:
-            return "wrap_up"
-
-    import json
-
-    from langchain_core.prompts import ChatPromptTemplate
-
-    from src.agent.llm import llm
 
     decision_prompt = ChatPromptTemplate.from_template(
         """
@@ -97,6 +84,7 @@ def question_router_decision(state: InterviewState) -> str:
     )
 
     print(decision)
+    print(stage)
 
     if decision == "SMALLTALK":
         return "small_talk"
@@ -157,6 +145,3 @@ def create_interview_workflow():
         f.write(img)
 
     return graph
-
-
-create_interview_workflow()
