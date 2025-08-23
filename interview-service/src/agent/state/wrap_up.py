@@ -3,6 +3,7 @@ from langgraph.constants import END
 
 from src.agent.llm import llm
 from src.agent.prompts.wrap_up import WRAP_UP_PROMPT_HUMAN, WRAP_UP_PROMPT_SYSTEM
+from src.agent.utils.format_messages import format_messages
 from src.domain.models.interview_state import InterviewState
 from src.domain.value_objects.conversation_role import ConversationRole
 
@@ -15,7 +16,7 @@ def wrap_up_node(state: InterviewState) -> InterviewState:
         ]
     )
 
-    conversation_context = "\n".join([entry[1] for entry in state["messages"]])
+    conversation_context = format_messages(state["messages"])
 
     chain = prompt | llm
     wrap_up_message = chain.invoke({"conversation_context": conversation_context}).content.strip()
