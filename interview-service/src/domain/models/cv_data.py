@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, HttpUrl
 
-from src.agent.domain.value_objects.hard_skill import HardSkill
-from src.agent.domain.value_objects.language_proficiency import LanguageProficiency
+from src.domain.value_objects.hard_skill import HardSkill
+from src.domain.value_objects.language_proficiency import LanguageProficiency
 
 
 class EducationItem(BaseModel):

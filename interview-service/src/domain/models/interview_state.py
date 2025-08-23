@@ -1,8 +1,8 @@
 from typing import Any, TypedDict
 
-from src.agent.domain.models.user_profile import UserProfile
-from src.agent.domain.value_objects.conversation_role import ConversationRole
-from src.agent.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
+from src.domain.models.user_profile import UserProfile
+from src.domain.value_objects.conversation_role import ConversationRole
+from src.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
 
 
 class InterviewState(TypedDict):
