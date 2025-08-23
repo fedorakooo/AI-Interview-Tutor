@@ -1,4 +1,4 @@
-from src.agent.domain.models.cv_data import CVData
+from src.domain.models.cv_data import CVData
 
 SAMPLE_CV: CVData = CVData(
     user_name="Aliaksandr Fedaraka",

@@ -2,18 +2,16 @@ import random
 
 from langchain_core.prompts import ChatPromptTemplate
 
-from src.agent.domain.models.cv_data import CVData
-from src.agent.domain.models.interview_state import InterviewState
-from src.agent.domain.value_objects.conversation_role import ConversationRole
-from src.agent.domain.value_objects.interview_stage import IntermediateInterviewStage
 from src.agent.llm import llm
 from src.agent.prompts.hard_question import HARD_QUESTION_PROMPT_HUMAN, HARD_QUESTION_PROMPT_SYSTEM
+from src.agent.utils.format_messages import format_messages
+from src.domain.models.cv_data import CVData
+from src.domain.models.interview_state import InterviewState
+from src.domain.value_objects.conversation_role import ConversationRole
+from src.domain.value_objects.interview_stage import IntermediateInterviewStage
 
 
 def ask_hard_question_node(state: InterviewState) -> InterviewState:
-    print(state["hard_question_completed"])
-    print("ask_hard_question_node")
-
     if state["hard_questions_turns"] == 0:
         hard_greetings = [
             "Let's go to checking your hard skills.",
@@ -28,11 +26,9 @@ def ask_hard_question_node(state: InterviewState) -> InterviewState:
         state["messages"].append((ConversationRole.AGENT, message))
         return state
 
-    messages = state.get("messages", [])
-
     state["hard_questions_turns"] += 1
 
-    conversation_context = "\n".join([entry[1] for entry in messages])
+    conversation_context = format_messages(state["messages"])
 
     prompt = ChatPromptTemplate.from_messages(
         [
@@ -42,12 +38,12 @@ def ask_hard_question_node(state: InterviewState) -> InterviewState:
     )
 
     chain = prompt | llm
+
     generated_question = chain.invoke(
         {"conversation_context": conversation_context, "cv_summary": CVData(**state["cv_data"]).model_dump_json()}
     ).content.strip()
 
-    messages.append((ConversationRole.AGENT, generated_question))
-    state["messages"] = messages
+    state["messages"].append((ConversationRole.AGENT, generated_question))
     state["intermediate_stage"] = IntermediateInterviewStage.QUESTION
 
     return state

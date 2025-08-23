@@ -3,10 +3,10 @@ import uuid
 from langgraph.constants import END
 
 from src.agent.data.sample_data import SAMPLE_CV
-from src.agent.domain.models.user_profile import UserProfile
-from src.agent.domain.value_objects.conversation_role import ConversationRole
-from src.agent.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
 from src.agent.workflow import create_interview_workflow
+from src.domain.models.user_profile import UserProfile
+from src.domain.value_objects.conversation_role import ConversationRole
+from src.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
 
 
 def run_interview(profile: UserProfile):
@@ -30,10 +30,10 @@ def run_interview(profile: UserProfile):
 
     state = interviewer.invoke(state, config)
 
-    while state["overall_stage"] != END:
+    while True:
         last_message = state["messages"][-1]
         if last_message[0] == ConversationRole.AGENT:
-            print(f"🤖 Interviewer: {last_message[1]}\n")
+            print(f"Interviewer: {last_message[1]}\n")
 
         user_input = input("You: ").strip()
 
@@ -41,9 +41,11 @@ def run_interview(profile: UserProfile):
             continue
 
         state["messages"].append((ConversationRole.USER, user_input))
-        state = interviewer.invoke(state, config)
 
-        print(state["soft_question_completed"])
+        if state["overall_stage"] == END:
+            break
+
+        state = interviewer.invoke(state, config)
 
 
 if __name__ == "__main__":

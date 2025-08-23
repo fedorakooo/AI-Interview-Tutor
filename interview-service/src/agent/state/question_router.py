@@ -1,5 +1,5 @@
-from src.agent.domain.models.interview_state import InterviewState
-from src.agent.domain.value_objects.interview_stage import OverallInterviewStage
+from src.domain.models.interview_state import InterviewState
+from src.domain.value_objects.interview_stage import OverallInterviewStage
 
 
 def question_router_node(state: InterviewState) -> InterviewState:

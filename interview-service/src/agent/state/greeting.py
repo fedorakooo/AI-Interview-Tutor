@@ -1,8 +1,8 @@
 import random
 
-from src.agent.domain.models.interview_state import InterviewState
-from src.agent.domain.value_objects.conversation_role import ConversationRole
-from src.agent.domain.value_objects.interview_stage import OverallInterviewStage
+from src.domain.models.interview_state import InterviewState
+from src.domain.value_objects.conversation_role import ConversationRole
+from src.domain.value_objects.interview_stage import OverallInterviewStage
 
 
 def greeting_node(state: InterviewState) -> InterviewState:
@@ -21,8 +21,7 @@ def greeting_node(state: InterviewState) -> InterviewState:
 
     greeting = random.choice(greetings)
 
-    return {
-        **state,
-        "messages": [(ConversationRole.AGENT, greeting)],
-        "overall_stage": OverallInterviewStage.SOFT_QUESTIONS,
-    }
+    state["messages"].append((ConversationRole.AGENT, greeting))
+    state["overall_stage"] = OverallInterviewStage.SOFT_QUESTIONS
+
+    return state

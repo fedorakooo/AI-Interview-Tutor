@@ -5,8 +5,6 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.constants import END
 from langgraph.graph import StateGraph
 
-from src.agent.domain.models.interview_state import InterviewState
-from src.agent.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
 from src.agent.llm import llm
 from src.agent.state.evaluate_answer import evaluate_answer_node
 from src.agent.state.greeting import greeting_node
@@ -16,14 +14,12 @@ from src.agent.state.small_talk import small_talk_node
 from src.agent.state.soft_question import ask_soft_question_node
 from src.agent.state.wrap_up import wrap_up_node
 from src.agent.utils.format_messages import format_messages
+from src.domain.models.interview_state import InterviewState
+from src.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
 
 
 def section_router(state: InterviewState) -> str:
-    print("section_router")
-    print(state["overall_stage"])
-
     if state["overall_stage"] == OverallInterviewStage.WRAP_UP:
-        print("wrap_up")
         return "wrap_up"
 
     if state["intermediate_stage"] == IntermediateInterviewStage.QUESTION:
@@ -42,8 +38,6 @@ def section_router(state: InterviewState) -> str:
 
 
 def question_router_decision(state: InterviewState) -> str:
-    print("question_router_decision")
-
     stage = state.get("overall_stage")
 
     decision_prompt = ChatPromptTemplate.from_template(
