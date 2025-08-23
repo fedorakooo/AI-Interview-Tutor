@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
 
-class AbstractRedisClient(ABC):
-    """Abstract class defining the interface for Redis client operations."""
+class IRedisClient(ABC):
+    """Interface defining the interface for Redis client operations."""
 
     @abstractmethod
     async def set(self, key: str, value: str) -> bool:

@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
 
-class AbstractPasswordHandler(ABC):
-    """Abstract class for handling password operations."""
+class IPasswordHandler(ABC):
+    """Interface for handling password operations."""
 
     @abstractmethod
     def hash_password(self, password: str) -> str:

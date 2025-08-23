@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 
-from src.domain.abstractions.database.repositories.user_repository import (
-    AbstractUserRepository,
+from src.domain.interfaces.database.repositories.user_repository import (
+    IUserRepository,
 )
 
 
-class AbstractUnitOfWork(ABC):
+class IUnitOfWork(ABC):
     @abstractmethod
-    async def __aenter__(self) -> "AbstractUnitOfWork":
+    async def __aenter__(self) -> "IUnitOfWork":
         """Enter the async context manager."""
         pass
 
@@ -28,6 +28,6 @@ class AbstractUnitOfWork(ABC):
 
     @property
     @abstractmethod
-    def user_repository(self) -> AbstractUserRepository:
+    def user_repository(self) -> IUserRepository:
         """Provides access to the User repository."""
         pass
