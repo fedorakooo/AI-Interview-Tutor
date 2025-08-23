@@ -21,7 +21,6 @@ router = APIRouter(prefix="/user/me", tags=["Current User"])
     "/",
     response_model=UserResponse,
     responses={
-        status.HTTP_401_UNAUTHORIZED: {"description": "Invalid or expired token"},
         status.HTTP_403_FORBIDDEN: {"description": "Requesting user is blocked"},
         status.HTTP_500_INTERNAL_SERVER_ERROR: {"description": "Unexpected server error"},
     },
@@ -38,7 +37,6 @@ async def get_me(
     "/",
     response_model=UserResponse,
     responses={
-        status.HTTP_401_UNAUTHORIZED: {"description": "Invalid or expired token"},
         status.HTTP_403_FORBIDDEN: {"description": "Requesting user is blocked"},
         status.HTTP_500_INTERNAL_SERVER_ERROR: {"description": "Unexpected server error"},
     },
@@ -60,7 +58,6 @@ async def update_me(
     "/",
     status_code=status.HTTP_204_NO_CONTENT,
     responses={
-        status.HTTP_401_UNAUTHORIZED: {"description": "Invalid or expired token"},
         status.HTTP_403_FORBIDDEN: {"description": "Requesting user is blocked"},
         status.HTTP_500_INTERNAL_SERVER_ERROR: {"description": "Unexpected server error"},
     },

@@ -22,9 +22,9 @@ from src.infrastructure.postgres.uow import SqlAlchemyUnitOfWork
 def get_async_engine():
     return create_async_engine(
         url=settings.postgres_settings.url,
-        echo=settings.sql_alchemy_settings.ECHO,
-        pool_size=settings.sql_alchemy_settings.POOL_SIZE,
-        max_overflow=settings.sql_alchemy_settings.MAX_OVERFLOW,
+        echo=settings.sql_alchemy_settings.echo,
+        pool_size=settings.sql_alchemy_settings.pool_size,
+        max_overflow=settings.sql_alchemy_settings.max_overflow,
     )
 
 
@@ -34,7 +34,7 @@ def get_session_factory(
 ) -> async_sessionmaker[AsyncSession]:
     return async_sessionmaker(
         bind=async_engine,
-        expire_on_commit=settings.sql_alchemy_settings.EXPIRE_ON_COMMIT,
+        expire_on_commit=settings.sql_alchemy_settings.expire_on_commit,
     )
 
 

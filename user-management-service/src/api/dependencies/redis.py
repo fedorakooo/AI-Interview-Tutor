@@ -12,10 +12,10 @@ from src.infrastructure.redis.redis_client import RedisClient
 @lru_cache
 def get_redis() -> Redis:
     return Redis(
-        host=settings.redis_settings.REDIS_HOST,
-        port=settings.redis_settings.REDIS_PORT,
-        username=settings.redis_settings.REDIS_USER,
-        password=settings.redis_settings.REDIS_USER_PASSWORD,
+        host=settings.redis_settings.host,
+        port=settings.redis_settings.port,
+        username=settings.redis_settings.user,
+        password=settings.redis_settings.password,
         decode_responses=settings.redis_settings.decode_responses,
     )
 

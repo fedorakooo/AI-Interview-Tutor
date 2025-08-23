@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from uuid import UUID
 
 from src.domain.entities.user import User
+from src.domain.value_objects.user_filter import UserFilter
 
 
 class IUserRepository(ABC):
@@ -15,6 +16,11 @@ class IUserRepository(ABC):
     @abstractmethod
     async def get_by_username(self, username: str) -> User | None:
         """Returns one user by username or None."""
+        pass
+
+    @abstractmethod
+    async def get_users(self, user_filter: UserFilter) -> tuple[list[User], int]:
+        """Returns users based on filter."""
         pass
 
     @abstractmethod

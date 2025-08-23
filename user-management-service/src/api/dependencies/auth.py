@@ -20,8 +20,8 @@ def get_password_handler() -> IPasswordHandler:
 
 def get_token_handler() -> ITokenHandler:
     return JWTTokenHandler(
-        public_key=settings.jwt_settings.PUBLIC_KEY,
-        private_key=settings.jwt_settings.PRIVATE_KEY,
+        public_key=settings.jwt_settings.public_key,
+        private_key=settings.jwt_settings.private_key,
     )
 
 

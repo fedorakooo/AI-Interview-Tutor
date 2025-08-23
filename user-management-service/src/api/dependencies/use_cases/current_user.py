@@ -9,9 +9,7 @@ from src.application.use_cases.current_user.update_current_user_use_case import 
 from src.domain.interfaces.database.uow import IUnitOfWork
 
 
-def get_current_user_use_case(
-    uow: Annotated[IUnitOfWork, Depends(get_unit_of_work)],
-) -> GetCurrentUserUseCase:
+def get_current_user_use_case(uow: Annotated[IUnitOfWork, Depends(get_unit_of_work)]) -> GetCurrentUserUseCase:
     return GetCurrentUserUseCase(
         uow=uow,
     )
