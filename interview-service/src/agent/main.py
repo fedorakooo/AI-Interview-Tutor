@@ -1,3 +1,4 @@
+import asyncio
 import uuid
 
 from langgraph.constants import END
@@ -9,7 +10,7 @@ from src.domain.value_objects.conversation_role import ConversationRole
 from src.domain.value_objects.interview_stage import IntermediateInterviewStage, OverallInterviewStage
 
 
-def run_interview(profile: UserProfile):
+async def run_interview(profile: UserProfile):
     interviewer = create_interview_workflow()
     thread_id = str(uuid.uuid4())
 
@@ -45,9 +46,9 @@ def run_interview(profile: UserProfile):
         if state["overall_stage"] == END:
             break
 
-        state = interviewer.invoke(state, config)
+        state = await interviewer.ainvoke(state, config)
 
 
 if __name__ == "__main__":
     candidate_profile = UserProfile(id=uuid.uuid4())
-    run_interview(candidate_profile)
+    asyncio.run(run_interview(candidate_profile))

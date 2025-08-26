@@ -8,7 +8,7 @@ from src.domain.models.interview_state import InterviewState
 from src.domain.value_objects.conversation_role import ConversationRole
 
 
-def wrap_up_node(state: InterviewState) -> InterviewState:
+async def wrap_up_node(state: InterviewState) -> InterviewState:
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", WRAP_UP_PROMPT_SYSTEM),
@@ -19,9 +19,10 @@ def wrap_up_node(state: InterviewState) -> InterviewState:
     conversation_context = format_messages(state["messages"])
 
     chain = prompt | llm
-    wrap_up_message = chain.invoke({"conversation_context": conversation_context}).content.strip()
+    response = await chain.ainvoke({"conversation_context": conversation_context})
+    content = response.content.strip()
 
-    state["messages"].append((ConversationRole.AGENT, wrap_up_message))
+    state["messages"].append((ConversationRole.AGENT, content))
     state["overall_stage"] = END
 
     return state

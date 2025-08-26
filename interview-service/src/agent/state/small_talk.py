@@ -7,7 +7,7 @@ from src.domain.models.interview_state import InterviewState
 from src.domain.value_objects.conversation_role import ConversationRole
 
 
-def small_talk_node(state: InterviewState) -> InterviewState:
+async def small_talk_node(state: InterviewState) -> InterviewState:
     messages = state["messages"]
 
     conversation_context = format_messages(messages)
@@ -21,8 +21,9 @@ def small_talk_node(state: InterviewState) -> InterviewState:
 
     chain = prompt | llm
 
-    assistant_reply = chain.invoke({"conversation_context": conversation_context}).content.strip()
+    response = await chain.ainvoke({"conversation_context": conversation_context})
+    content = response.content.strip()
 
-    state["messages"].append((ConversationRole.AGENT, assistant_reply))
+    state["messages"].append((ConversationRole.AGENT, content))
 
     return state

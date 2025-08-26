@@ -11,7 +11,7 @@ from src.domain.value_objects.conversation_role import ConversationRole
 from src.domain.value_objects.interview_stage import IntermediateInterviewStage
 
 
-def ask_hard_question_node(state: InterviewState) -> InterviewState:
+async def ask_hard_question_node(state: InterviewState) -> InterviewState:
     if state["hard_questions_turns"] == 0:
         hard_greetings = [
             "Let's go to checking your hard skills.",
@@ -39,11 +39,15 @@ def ask_hard_question_node(state: InterviewState) -> InterviewState:
 
     chain = prompt | llm
 
-    generated_question = chain.invoke(
-        {"conversation_context": conversation_context, "cv_summary": CVData(**state["cv_data"]).model_dump_json()}
-    ).content.strip()
+    response = await chain.ainvoke(
+        {
+            "conversation_context": conversation_context,
+            "cv_summary": CVData(**state["cv_data"]).model_dump_json(),
+        }
+    )
+    content = response.content.strip()
 
-    state["messages"].append((ConversationRole.AGENT, generated_question))
+    state["messages"].append((ConversationRole.AGENT, content))
     state["intermediate_stage"] = IntermediateInterviewStage.QUESTION
 
     return state

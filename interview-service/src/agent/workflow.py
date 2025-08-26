@@ -37,7 +37,7 @@ def section_router(state: InterviewState) -> str:
     return END
 
 
-def question_router_decision(state: InterviewState) -> str:
+async def question_router_decision(state: InterviewState) -> str:
     stage = state.get("overall_stage")
 
     decision_prompt = ChatPromptTemplate.from_template(
@@ -66,21 +66,16 @@ def question_router_decision(state: InterviewState) -> str:
     )
 
     chain = decision_prompt | llm
-    decision = (
-        chain.invoke(
-            {
-                "conversation_context": format_messages(state.get("messages", [])),
-                "cv_summary": json.dumps(state.get("cv_data", {}), indent=2),
-            }
-        )
-        .content.strip()
-        .upper()
+    response = await chain.ainvoke(
+        {
+            "conversation_context": format_messages(state.get("messages", [])),
+            "cv_summary": json.dumps(state.get("cv_data", {}), indent=2),
+        }
     )
 
-    print(decision)
-    print(stage)
+    content = response.content.strip().upper()
 
-    if decision == "SMALLTALK":
+    if content == "SMALLTALK":
         return "small_talk"
 
     if stage == OverallInterviewStage.SOFT_QUESTIONS:
