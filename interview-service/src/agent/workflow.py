@@ -6,6 +6,7 @@ from langgraph.constants import END
 from langgraph.graph import StateGraph
 
 from src.agent.llm import llm
+from src.agent.prompts.question_router_decision import QUESTION_ROUTER_DECISION_PROMPT
 from src.agent.state.evaluate_answer import evaluate_answer_node
 from src.agent.state.greeting import greeting_node
 from src.agent.state.hard_question import ask_hard_question_node
@@ -40,32 +41,9 @@ def section_router(state: InterviewState) -> str:
 async def question_router_decision(state: InterviewState) -> str:
     stage = state.get("overall_stage")
 
-    decision_prompt = ChatPromptTemplate.from_template(
-        """
-        You are an exceptionally polite and tactful interview assistant.
-        Your role is to maintain a warm, professional, and respectful tone at all times.
+    prompt = ChatPromptTemplate.from_template(QUESTION_ROUTER_DECISION_PROMPT)
 
-        Based on the conversation so far and candidate's CV,
-        decide whether to:
-        - continue with a short, friendly small talk phrase, OR
-        - politely move forward by asking the next interview question.
-
-        You MUST return ONLY one of the following words (in uppercase, without quotes or punctuation):
-        SMALLTALK
-        QUESTION
-
-        ---
-        Conversation context:
-        {conversation_context}
-
-        Candidate CV:
-        {cv_summary}
-
-        Your choice:
-        """
-    )
-
-    chain = decision_prompt | llm
+    chain = prompt | llm
     response = await chain.ainvoke(
         {
             "conversation_context": format_messages(state.get("messages", [])),
@@ -128,9 +106,5 @@ def create_interview_workflow():
     graph_builder.add_edge("ask_soft_question", "__end__")
 
     graph = graph_builder.compile(checkpointer=MemorySaver())
-
-    img = graph.get_graph().draw_mermaid_png()
-    with open("interview_workflow_soft_hard_smalltalk.png", "wb") as f:
-        f.write(img)
 
     return graph
