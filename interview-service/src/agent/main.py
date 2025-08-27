@@ -12,7 +12,7 @@ from src.domain.value_objects.interview_stage import IntermediateInterviewStage,
 
 async def run_interview(profile: UserProfile):
     interviewer = create_interview_workflow()
-    thread_id = str(uuid.uuid4())
+    interview_id = str(uuid.uuid4())
 
     state = {
         "user_profile": profile,
@@ -27,9 +27,9 @@ async def run_interview(profile: UserProfile):
         "hard_question_completed": 0,
     }
 
-    config = {"configurable": {"thread_id": thread_id}}
+    config = {"configurable": {"thread_id": interview_id}}
 
-    state = interviewer.invoke(state, config)
+    state = await interviewer.ainvoke(state, config)
 
     while True:
         last_message = state["messages"][-1]
