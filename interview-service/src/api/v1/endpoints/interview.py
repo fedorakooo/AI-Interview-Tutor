@@ -3,7 +3,7 @@ import json
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 from src.agent.data.sample_data import SAMPLE_CV
-from src.api.v1.endpoints.interview.interview_manager import interview_manager
+from src.api.v1.managers.interview_manager import interview_manager
 from src.domain.models.user_profile import UserProfile
 from src.logger import app_logger
 

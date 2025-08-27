@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.api.v1.endpoints.interview.interview import router as interview_router
+from src.api.v1.endpoints.interview import router as interview_router
 
 router = APIRouter(prefix="/api/v1")
 
