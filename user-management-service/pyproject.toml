@@ -19,6 +19,7 @@ pydantic = { extras = ["email"], version = ">=2.11.7,<3.0.0" }
 python-multipart = "^0.0.20"
 redis = "^6.2.0"
 jwt-handler = { git = "https://github.com/fedorakooo/AI-Interview-Tutor.git", branch = "dev", subdirectory = "libs/jwt_handler" }
+aio-pika = "^9.5.7"
 
 [build-system]
 requires = ["poetry-core"]
